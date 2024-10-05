@@ -1,5 +1,8 @@
 <resources>
-     <string name="app_name">AndroidLabs</string>
-    <string name="hello_world">Bonjour le monde</string>
-    <string name="button_text">Je suis un bouton!</string>
+    <string name="app_name">MyApp</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="next">Next</string>
+    <string name="welcome">Welcome</string>
+    <string name="thank_you">Thank you</string>
+    <string name="dont_call_me_that">Dont call me that</string>
 </resources>
