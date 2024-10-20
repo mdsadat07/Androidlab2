@@ -38,6 +38,12 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Add a new to-do item to the database.
+     * 
+     * @param todo The to-do text
+     * @param urgency The urgency of the to-do (1 for urgent, 0 for not urgent)
+     */
     public void addTodo(String todo, int urgency) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -46,16 +52,47 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_TODOS, null, values);
     }
 
+    /**
+     * Add a new to-do item to the database and return its ID.
+     * 
+     * @param todo The to-do text
+     * @param urgency The urgency of the to-do (1 for urgent, 0 for not urgent)
+     * @return The ID of the newly added to-do item
+     */
+    public int addTodoWithReturnId(String todo, int urgency) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TODO, todo);
+        values.put(COLUMN_URGENCY, urgency);
+        long newRowId = db.insert(TABLE_TODOS, null, values);
+        return (int) newRowId;
+    }
+
+    /**
+     * Retrieve all to-do items from the database.
+     * 
+     * @return Cursor pointing to the result set
+     */
     public Cursor getAllTodos() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLE_TODOS, null, null, null, null, null, null);
     }
 
+    /**
+     * Delete a to-do item from the database by its ID.
+     * 
+     * @param id The ID of the to-do item to delete
+     */
     public void deleteTodoById(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TODOS, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
     }
 
+    /**
+     * Print the cursor data to the log for debugging.
+     * 
+     * @param cursor The cursor to print
+     */
     public void printCursor(Cursor cursor) {
         Log.d("DatabaseInfo", "DB Version: " + this.getReadableDatabase().getVersion());
         Log.d("DatabaseInfo", "Number of Columns: " + cursor.getColumnCount());

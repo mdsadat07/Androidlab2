@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ArrayList<String> todos;
     private TodoDatabaseHelper dbHelper;
+    private ArrayList<Integer> todoIds; // To store the ID of each todo item
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new TodoDatabaseHelper(this);
         todos = new ArrayList<>();
+        todoIds = new ArrayList<>();
 
         // Load todos from the database
         loadTodosFromDB();
@@ -69,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!todoText.isEmpty()) {
                     // Add to the database
-                    dbHelper.addTodo(todoText, isUrgent ? 1 : 0);
+                    int urgency = isUrgent ? 1 : 0;
+                    long newTodoId = dbHelper.addTodoWithReturnId(todoText, urgency);
 
                     // Add to list view
                     String displayText = isUrgent ? "Urgent: " + todoText : todoText;
                     todos.add(displayText);
+                    todoIds.add((int) newTodoId); // Track the ID of the new item
                     adapter.notifyDataSetChanged();
 
                     // Clear input field
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Long click handler to delete an item
         todoListView.setOnItemLongClickListener((parent, view, position, id) -> {
-            // Show confirmation dialog
+            // Show confirmation dialog for deletion
             showDeleteConfirmationDialog(position);
             return true;
         });
@@ -97,8 +101,11 @@ public class MainActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             String todo = cursor.getString(cursor.getColumnIndex("todo"));
             int urgency = cursor.getInt(cursor.getColumnIndex("urgency"));
+            int todoId = cursor.getInt(cursor.getColumnIndex("_id"));
+            
             String displayText = (urgency == 1 ? "Urgent: " : "") + todo;
             todos.add(displayText);
+            todoIds.add(todoId); // Track the ID of the loaded item
         }
         cursor.close();
     }
@@ -113,10 +120,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Delete the selected item
-                dbHelper.deleteTodoById(position + 1); // Adjust for 0-based index
-                todos.remove(position);
-                adapter.notifyDataSetChanged();
+                // Delete the selected item using its ID
+                int todoId = todoIds.get(position);
+                dbHelper.deleteTodoById(todoId); // Delete from database
+                todos.remove(position); // Remove from list
+                todoIds.remove(position); // Remove ID from tracking list
+                adapter.notifyDataSetChanged(); // Update the adapter
                 Toast.makeText(MainActivity.this, "Item deleted", Toast.LENGTH_SHORT).show();
             }
         });
