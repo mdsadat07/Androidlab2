@@ -1,5 +1,3 @@
 <resources>
-     <string name="app_name">AndroidLabs</string>
-    <string name="hello_world">Bonjour le monde</string>
-    <string name="button_text">Je suis un bouton!</string>
+    <string name="app_name">Cat Image Slideshow</string>
 </resources>
