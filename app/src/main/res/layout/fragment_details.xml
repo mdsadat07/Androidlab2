@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Name Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
+    <!-- Name Value -->
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fill_me"
+        android:textSize="20sp" />
+
+    <!-- Height Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Height:"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Height Value -->
+    <TextView
+        android:id="@+id/heightTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fill_me"
+        android:textSize="20sp" />
+
+    <!-- Mass Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mass:"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Mass Value -->
+    <TextView
+        android:id="@+id/massTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fill_me"
+        android:textSize="20sp" />
+
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
